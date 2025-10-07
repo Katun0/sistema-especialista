@@ -1,16 +1,32 @@
-# This is a sample Python script.
+class SpecialistEngine:
+    def __init__(self):
+        self.facts = set()
+        self.rules = []
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+    def add_fact(self, fact):
+        self.facts.add(fact)
 
+    def add_rule(self, condition, result):
+        self.rules.append((condition, result))
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    def infer(self):
+        new_infer = True
+        while new_infer:
+            new_infer = False
+            for condition, result in self.rules:
+                if condition.issubset(self.facts) and result not in self.facts:
+                    print(f"Rule Applied: {condition}, Inferred: {result}")
+                    self.facts.add(result)
+                    new_infer = True    
 
+engine = SpecialistEngine()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+engine.add_fact("Animal tem penas")
+engine.add_fact("Animal voa")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+engine.add_rule({"Animal tem penas", "Animal voa"}, "Animal é uma ave")
+engine.add_rule({"Animal é uma ave", "Animal tem bico"}, "Animal é um pinguim")
+
+engine.infer()
+
+print("Fatos finais:", engine.facts)

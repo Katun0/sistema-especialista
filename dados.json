@@ -1,0 +1,7 @@
+{
+  "colica": ["choro intenso", "dor abdominal", "noite", "chora"],
+  "resfriado": ["coriza", "dificuldade respirar", "febre baixa"],
+  "febre": ["febre alta", "mal estar"],
+  "gastrite": ["vomito", "pos alimentacao", "irritacao"],
+  "alergia_alimentar": ["erupcao na pele", "dificuldade respirar", "manchas na pele"]
+}

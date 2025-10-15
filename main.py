@@ -1,32 +1,29 @@
-class SpecialistEngine:
-    def __init__(self):
-        self.facts = set()
-        self.rules = []
+from motor import Motor
 
-    def add_fact(self, fact):
-        self.facts.add(fact)
+print("=== Sistema Especialista - Diagnóstico Infantil (Backward Chaining) ===\n")
 
-    def add_rule(self, condition, result):
-        self.rules.append((condition, result))
+# Inicializa motor com caminho do JSON
+motor = Motor("dados.json")
 
-    def infer(self):
-        new_infer = True
-        while new_infer:
-            new_infer = False
-            for condition, result in self.rules:
-                if condition.issubset(self.facts) and result not in self.facts:
-                    print(f"Rule Applied: {condition}, Inferred: {result}")
-                    self.facts.add(result)
-                    new_infer = True    
+texto_usuario = input("Descreva o que o bebê está apresentando:\n> ")
 
-engine = SpecialistEngine()
+# Extrai sintomas mencionados
+sintomas_detectados = motor.extrair_sintoma(texto_usuario)
 
-engine.add_fact("Animal tem penas")
-engine.add_fact("Animal voa")
+if not sintomas_detectados:
+    print("\nNenhum sintoma reconhecido no texto.")
+else:
+    print("\nSintomas reconhecidos:")
+    for s in sintomas_detectados:
+        print(f" - {s.replace('_', ' ')}")
 
-engine.add_rule({"Animal tem penas", "Animal voa"}, "Animal é uma ave")
-engine.add_rule({"Animal é uma ave", "Animal tem bico"}, "Animal é um pinguim")
+    print("\nAnalisando possíveis diagnósticos...\n")
+    hipoteses = motor.backward(sintomas_detectados)
 
-engine.infer()
+    if not hipoteses:
+        print("Nenhum diagnóstico compatível encontrado.")
+    else:
+        for diag, score in hipoteses:
+            print(f"{diag.capitalize()} ({score * 100:.0f}% de correspondência)")
 
-print("Fatos finais:", engine.facts)
+        print(f"\n>>> Diagnóstico mais provável: {hipoteses[0][0].capitalize()}")

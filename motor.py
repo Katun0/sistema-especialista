@@ -25,9 +25,7 @@ class Motor:
                 self.nlp = None
 
     def reconhecer_similar(self, palavra1, palavra2, limiar=0.75):
-        """
-        Compara duas palavras e retorna True se a similaridade for >= limiar
-        """
+        ## Compara duas palavras e retorna True se a similaridade for >= limiar
         if self.nlp is None:
             return False
         
@@ -41,18 +39,18 @@ class Motor:
         texto = texto.lower()
         sintomas = set()
 
-        # Obtém todos os sintomas possíveis
+        ## Obtém todos os sintomas possíveis
         sintomas_all = set()
         for sintomas_doenca in self.base_conhecimento.values():
             sintomas_all = sintomas_all.union(sintomas_doenca)
 
-        # Busca exata por sintomas
+        ## Busca exata por sintomas
         for sintoma in sintomas_all:
             padrao = sintoma.replace("_", " ")
             if re.search(rf"\b{padrao}\b", texto):
                 sintomas.add(sintoma)
 
-        # Busca por similaridade semântica (se spaCy disponível)
+        ## Busca por similaridade semântica (se spaCy disponível)
         if self.nlp is not None:
             texto_doc = self.nlp(texto)
             

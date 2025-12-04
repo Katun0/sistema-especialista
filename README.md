@@ -37,37 +37,34 @@ A base utilizada contém diversos diagnósticos pediátricos, cada um com:
 
 O sistema segue quatro etapas principais:
 
-Carregamento da Base e Geração de Embeddings
+## Carregamento da Base e Geração de Embeddings
 
 O arquivo JSON é carregado.
 
-Para cada diagnóstico:
+## Para cada diagnóstico:
 
-seus sintomas e descrição são combinados
+- seus sintomas e descrição são combinados
+- um vetor de embedding é gerado
+- Isso permite comparar textos de forma semântica.
 
-um vetor de embedding é gerado
+## Entrada do Usuário
 
-Isso permite comparar textos de forma semântica.
+# Exemplo:
+> "meu filho está vomitando depois de comer e está irritado"
 
-Entrada do Usuário
+## Extração dos Sintomas
 
-Exemplo:
-"meu filho está vomitando depois de comer e está irritado"
+- O módulo fact_extractor.py procura termos relevantes e estrutura os fatos extraídos.
+- Busca Semântica + Motor de Regras
 
-Extração dos Sintomas
-
-O módulo fact_extractor.py procura termos relevantes e estrutura os fatos extraídos.
-
-Busca Semântica + Motor de Regras
-
-O sistema combina:
+## O sistema combina:
 - Similaridade de embeddings (para achar diagnósticos similares)
 - Motor de regras (para validar sintomas característicos)
 - Ponderação final para retornar diagnósticos mais prováveis
 
-Retorno
+## Retorno
 
-O usuário recebe:
+# O usuário recebe:
 - diagnóstico mais provável
 - descrição
 - faixa etária típica
@@ -75,17 +72,18 @@ O usuário recebe:
 
 ---
 
-Como Executar
+## Como Executar
 
-1. Instalar dependências
+# 1. Instalar dependências
 
 > pip install -r requirements.txt
 
-2. Rodar o sistema
+# 2. Rodar o sistema
 
 > python main.py
 
-3. Interagir
+# 3. Interagir
+
 O sistema perguntará uma descrição:
 
 Digite descrições/sintomas:
@@ -100,25 +98,25 @@ Tratamento: massagem abdominal, analgésicos leves..."
 ---
 
 <h1> Tecnologias Utilizadas</h1>
-Python 3.9+
-NumPy para cálculos vetoriais
-SentenceTransformers (ou similar) para embeddings
-JSON como base de conhecimento
-Inferência simbólica baseada em regras
+- Python 3.9+
+- NumPy para cálculos vetoriais
+- SentenceTransformers (ou similar) para embeddings
+- JSON como base de conhecimento
+= Inferência simbólica baseada em regras
 
 ---
 
 <h1> Objetivo Acadêmico</h1>
 
 Este projeto demonstra:
-conhecimento simbólico (regras)
-inferência automatizada
-processamento de linguagem natural
-embeddings e similaridade semântica
-modularização limpa
-arquitetura de sistemas especialistas modernos
-Ótimo para disciplinas como:
-Inteligência Artificial
-Sistemas Especialistas
-Sistemas Baseados em Conhecimento
-PLN e Representação do Conhecimento
+- conhecimento simbólico (regras)
+- inferência automatizada
+- processamento de linguagem natural
+- embeddings e similaridade semântica
+- modularização limpa
+- arquitetura de sistemas especialistas modernos
+-  Ótimo para disciplinas como:
+- Inteligência Artificial
+- Sistemas Especialistas
+- Sistemas Baseados em Conhecimento
+- PLN e Representação do Conhecimento

@@ -17,24 +17,9 @@ O objetivo é demonstrar um exemplo moderno de IA simbólica + IA conexionista, 
 ---
 
 <h1> Estrutura do Prjeto: </h1>
-sistema_especialista/
 
-│
-├── data/
-│   └── knowledge.json                  # Base de conhecimento
-│
-├── embeddings/
-│   └── embedder.py                     # Geração de embeddings e carregamento da base
-│
-├── inference/
-│   ├── fact_extractor.py               # Extrai fatos (sintomas) do texto do usuário
-│   ├── rule_engine.py                  # Motor de regras
-│   └── inference.py                    # Ciclo completo de inferência
-│
-├── semantic/
-│   └── search.py                       # Busca semântica entre consulta e os diagnósticos
-│
-└── main.py                             # Script principal (CLI do sistema especialista)
+
+<img width="833" height="652" alt="image" src="https://github.com/user-attachments/assets/8e1cc698-0744-4b68-b035-2bf6b5cf36fd" />
 
 ---
 

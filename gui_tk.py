@@ -1,3 +1,4 @@
+# - A INTERFACE SÓ RODA NO POWERSHELL SE ESTIVER USANDO VSCODE 
 import os
 import threading
 import queue
@@ -43,7 +44,6 @@ class ExpertSystemApp(tk.Tk):
         if IMPORT_ERROR:
             self.append_log("ERRO AO IMPORTAR MÓDULOS DO PROJETO:\n" + IMPORT_ERROR)
         else:
-            # inicializar engine em thread separado (pode demorar dependendo do embedder)
             self.append_log("Inicializando sistema especialista...")
             threading.Thread(target=self._init_engine, daemon=True).start()
         self.after(200, self._poll_queue)
@@ -148,7 +148,7 @@ class ExpertSystemApp(tk.Tk):
             self.kb_path = path
             self.kb_label.config(text=os.path.basename(self.kb_path))
             self.append_log(f"KB alterada para: {self.kb_path}")
-            # reinit engine with new KB
+            # reinit engine com o novo KB
             if IMPORT_ERROR:
                 messagebox.showwarning("Aviso", "Não foi possível reinicializar engine porque houve erro na importação dos módulos do projeto.")
                 return
@@ -184,13 +184,13 @@ class ExpertSystemApp(tk.Tk):
         self._clear_outputs()
         self.status_var.set("Executando inferência...")
         self.append_log("Executando inferência para: " + (query if len(query) < 200 else query[:200] + "..."))
-        # executar inferência em thread
+        # executar a inferência em thread daí
         threading.Thread(target=self._run_infer_thread, args=(query, top_k), daemon=True).start()
 
     def _run_infer_thread(self, query, top_k):
         try:
             out = self.engine.infer(query, top_k=top_k)
-            # coloque o resultado na queue para o thread principal processar
+            
             self.result_queue.put(("result", out))
         except Exception:
             self.result_queue.put(("error", traceback.format_exc()))
@@ -223,7 +223,7 @@ class ExpertSystemApp(tk.Tk):
         facts = out.get("facts", {})
         self.facts_text.insert("1.0", json.dumps(facts, indent=2, ensure_ascii=False))
 
-        # evidence: lista de {"doc":..., "score":...}
+        # lista de doc e score
         for ev in out.get("evidence", []):
             doc = ev.get("doc", {})
             title = f"{doc.get('id','?')} - {doc.get('title', '')}"
@@ -247,26 +247,20 @@ class ExpertSystemApp(tk.Tk):
         if not sel:
             return
         iid = sel[0]
-        # recupera dados da linha (não fizemos store explícito, vamos reconstruir a partir do título)
+        # recupera dados da linha 
         vals = self.concl_tree.item(iid, "values")
-        # encontrar conclusão pelo título na lista atual? mais simples: procure no último output impresso nos facts/ tree
-        # vamos simplificar e mostrar a linha inteira + procurar tratamento no text dos docs
+        
         title = vals[2] if len(vals) >= 3 else ""
-        # varrer conclusões importadas a partir do último run: como simplificação, vamos obter texto do campo facts/evidência
-        # (o usuário provavelmente quer ver descricao e tratamento)
-        # Tentaremos inferir: pegar o documento correspondente ao título na evid_tree / facts.
-        # Simples: mostrar o conteúdo do item da árvore (combined, overlap, title)
+        
         detail = f"Título selecionado: {title}\nCombined: {vals[0]}\nOverlap: {vals[1]}\n\n"
-        # além disso, tente extrair tratamento do item com mesmo diagnostico nos conclusions
-        # procurar no conteúdo das conclusões exibidas (varrer todas linhas da tree)
+        
         found = None
         for item in self.concl_tree.get_children():
             if item == iid:
-                # tentar reconstruir payload baseado em valores exibidos (melhor do que nada)
-                # como salvamos o tratamento na cell de detalhes? não temos; porém podemos buscar o diagnostico no campo de fatos/evidences
+                
                 found = True
                 break
-        # Exibir texto adicional instructivo e pedir para ver fonte
+        
         detail += "Detalhes adicionais (se disponíveis) aparecerão aqui, incluindo descrição completa e tratamento.\n\n"
         detail += "OBS: Se desejar ver o texto completo do documento ou tratamento, selecione um item em 'Evidência' e copie manualmente o conteúdo.\n"
         self.detail_text.delete("1.0", "end")

@@ -1,49 +1,44 @@
-import sys
-from motor import Motor
+# expert_system_json/main.py
+import os
+from embeddings.embedder import Embedder
+from semantic.search import SemanticSearch
+from inference.fact_extractor import FactExtractor
+from inference.rule_engine import RuleEngine
+from inference.inference import InferenceEngine
 
-titulo = "=== Sistema Especialista - Diagnóstico Infantil (Backward Chaining) ===\n"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+KB_PATH = os.path.join(BASE_DIR, "data", "knowledge.json")
 
-def run_cli():
-    print(titulo)
-    # Inicializa motor com caminho do JSON
-    motor = Motor("dados.json")
+def main():
+    print("Carregando sistema especialista (JSON) ...")
+    embedder = Embedder()
+    docs = embedder.load_kb(KB_PATH)
+    embeddings = embedder.encode_documents(docs)
 
-    texto_usuario = input("Descreva o que o bebê está apresentando:\n> ")
+    sem = SemanticSearch(embeddings, docs)
+    extractor = FactExtractor()
+    rules = RuleEngine()
+    engine = InferenceEngine(embedder, sem, extractor, rules)
 
-    # Extrai sintomas mencionados
-    sintomas_detectados = motor.extrair_sintoma(texto_usuario)
-
-    if not sintomas_detectados:
-        print("\nNenhum sintoma reconhecido no texto.")
-    else:
-        print("\nSintomas reconhecidos:")
-        for s in sintomas_detectados:
-            print(f" - {s.replace('_', ' ')}")
-
-        print("\nAnalisando possíveis diagnósticos...\n")
-        hipoteses = motor.backward(sintomas_detectados)
-
-        if not hipoteses:
-            print("Nenhum diagnóstico compatível encontrado.")
+    print("Pronto. Digite descrições/sintomas (Enter vazio para sair).\n")
+    while True:
+        q = input("Descrição> ").strip()
+        if not q:
+            print("Saindo.")
+            break
+        out = engine.infer(q, top_k=4)
+        print("\nFatos extraídos:", out["facts"])
+        print("\nEvidência (top):")
+        for e in out["evidence"]:
+            print(f" - {e['doc']['id']} ({e['doc']['title']}) score_sem={e['score']:.3f}")
+        print("\nConclusões possíveis:")
+        if out["conclusions"]:
+            for c in out["conclusions"]:
+                print(f" * {c['diagnostico']} - combined={c['combined_score']:.3f} (symptom_overlap={c['symptom_overlap']:.2f})")
+                print(f"   Tratamento (sugestão): {c.get('tratamento')}")
         else:
-            for diag, score in hipoteses:
-                print(f"{diag.capitalize()} ({score * 100:.0f}% de correspondência)")
-
-            print(f"\n>>> Diagnóstico mais provável: {hipoteses[0][0].capitalize()}")
-
-def run_gui():
-    try:
-        from gui import main as gui_main
-        gui_main()
-    except Exception as e:
-        print(titulo)
-        print("Não foi possível iniciar a interface gráfica. Iniciando modo de linha de comando.")
-        print(f"Motivo: {e}")
-        run_cli()
+            print(" Nenhum diagnóstico confiante encontrado — revise a descrição ou verifique os documentos relacionados.")
+        print("\n" + "-"*50 + "\n")
 
 if __name__ == "__main__":
-    # Se for passado --cli ou -c, força o modo CLI. Caso contrário, abre a GUI por padrão.
-    if any(arg in ("--cli", "-c") for arg in sys.argv[1:]):
-        run_cli()
-    else:
-        run_gui()
+    main()

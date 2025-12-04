@@ -1,0 +1,73 @@
+{
+  "diagnosticos": {
+    "colica": {
+      "sintomas": [
+        "choro intenso",
+        "dor abdominal",
+        "noite",
+        "chora"
+      ],
+      "descricao": "Cólica em crianças pode ser causada por diversos fatores, como distúrbios gastrointestinais. A dor abdominal é frequentemente intensa e ocorre principalmente à noite.",
+      "faixa_etaria": "bebês e crianças pequenas",
+      "tratamento": [
+        "massagem abdominal",
+        "uso de analgésicos leves (sob orientação médica)",
+        "alteração na alimentação"
+      ]
+    },
+    "resfriado": {
+      "sintomas": [
+        "coriza",
+        "dificuldade respirar",
+        "febre baixa"
+      ],
+      "descricao": "O resfriado comum é causado por vírus e geralmente se manifesta com coriza, dificuldade para respirar e febre baixa. É mais comum durante períodos de frio.",
+      "faixa_etaria": "todas as idades",
+      "tratamento": [
+        "uso de descongestionantes nasais (sob orientação médica)",
+        "hidratação",
+        "descanso"
+      ]
+    },
+    "febre": {
+      "sintomas": [
+        "febre alta",
+        "mal estar"
+      ],
+      "descricao": "Febre alta pode ser um sintoma de várias condições. Quando acompanhada de mal-estar, pode indicar uma infecção viral ou bacteriana.",
+      "faixa_etaria": "todas as idades",
+      "tratamento": [
+        "uso de antitérmicos (sob orientação médica)",
+        "hidratação",
+        "monitoramento da temperatura"
+      ]
+    },
+    "gastrite": {
+      "sintomas": [
+        "vomito",
+        "pós alimentação",
+        "irritação"
+      ],
+      "descricao": "A gastrite em crianças pode ser causada por infecções, alimentos irritantes ou estresse. O sintoma comum é o vômito após as refeições.",
+      "faixa_etaria": "todas as idades",
+      "tratamento": [
+        "evitar alimentos irritantes",
+        "uso de antiácidos (sob orientação médica)",
+        "alimentação leve"
+      ]
+    },
+    "alergia_alimentar": {
+      "sintomas": [
+        "erupção na pele",
+        "dificuldade respirar"
+      ],
+      "descricao": "As alergias alimentares podem causar reações imediatas, como erupções cutâneas e dificuldades respiratórias. Podem ser desencadeadas por alimentos específicos.",
+      "faixa_etaria": "todas as idades",
+      "tratamento": [
+        "evitar o alimento alergênico",
+        "uso de antialérgicos (sob orientação médica)",
+        "monitoramento constante"
+      ]
+    }
+  }
+}

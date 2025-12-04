@@ -18,6 +18,7 @@ O objetivo é demonstrar um exemplo moderno de IA simbólica + IA conexionista, 
 
 <h1> Estrutura do Prjeto: </h1>
 sistema_especialista/
+
 │
 ├── data/
 │   └── knowledge.json                  # Base de conhecimento
@@ -79,7 +80,7 @@ O sistema combina:
 - Motor de regras (para validar sintomas característicos)
 - Ponderação final para retornar diagnósticos mais prováveis
 
-5️⃣ Retorno
+Retorno
 
 O usuário recebe:
 - diagnóstico mais provável
@@ -89,15 +90,15 @@ O usuário recebe:
 
 ---
 
-▶️ Como Executar
+Como Executar
 
 1. Instalar dependências
 
-pip install -r requirements.txt
+> pip install -r requirements.txt
 
 2. Rodar o sistema
 
-python main.py
+> python main.py
 
 3. Interagir
 O sistema perguntará uma descrição:
@@ -113,7 +114,7 @@ Tratamento: massagem abdominal, analgésicos leves..."
 
 ---
 
-<h1>🧠 Tecnologias Utilizadas</h1>
+<h1> Tecnologias Utilizadas</h1>
 Python 3.9+
 NumPy para cálculos vetoriais
 SentenceTransformers (ou similar) para embeddings
@@ -122,7 +123,7 @@ Inferência simbólica baseada em regras
 
 ---
 
-<h1>🎯 Objetivo Acadêmico</h1>
+<h1> Objetivo Acadêmico</h1>
 
 Este projeto demonstra:
 conhecimento simbólico (regras)
